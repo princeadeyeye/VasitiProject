@@ -2,7 +2,7 @@ const Todo = require('../model/todo_model')
 
 
 
-const create = ('/', (req, res, next) => {
+const create = (req, res) => {
 	Todo.save()
 		.then(()=> {
 			res.status(201).json({
@@ -12,10 +12,10 @@ const create = ('/', (req, res, next) => {
 		.catch((error) => {
 			res.status(400).json({ error: error })
 		})
-});
+};
 
 
-const read = ('/', (req, res, next) => {
+const read =  (req, res) => {
 Todo.find()
 		.then((todo) => {
 			res.status(200).json(todos)
@@ -25,11 +25,10 @@ Todo.find()
 				error: error
 			})
 		})
-});
+};
 
-const update = ('/', (req, res, next) => {
-	const todo = new 
-Todo({
+const update = (req, res) => {
+	const todo = new Todo({
 		_id: req.params.id,
 		title: req.body.title,
 		text: req.body.text,
@@ -46,10 +45,10 @@ Todo.updateOne({ _id: req.params.id }, todo)
 				error: error
 			})
 		})
-});
+};
 
-const deleteTodo = ('/', (req, res, next) => {
-Todo.deleteOne({ _id: req.params.id})
+const deleteTodo = (req, res, next) => {
+	Todo.deleteOne({ _id: req.params.id})
 		.then(() => {
 			res.status(200).json({
 				message: `Todo deleted successfully`
@@ -59,12 +58,11 @@ Todo.deleteOne({ _id: req.params.id})
 			res.status(400).json({ error: error})
 		})
 
-})
+}
 
 
-const getTodo = ('/', (req, res, next) => {
-	
-Todo.findOne({ _id: req.params.id})
+const getTodo = (req, res, next) => {
+	Todo.findOne({ _id: req.params.id})
 		.then((todo) => {
 			res.status(200).json(todo)
 		})
@@ -73,7 +71,7 @@ Todo.findOne({ _id: req.params.id})
 				error:error
 			})
 		})
-});
+};
 
 module.exports = {
 	create,

@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 
 
 
-mongoose.connect(config.mongoUri)
+mongoose.connect('mongodb+srv://new-user_1:adeyeye@cluster0-qscnl.mongodb.net/test?retryWrites=true&w=majority')
 	.then(() => {
 		console.log('connected to mongodb atlas successfully')
 	})
