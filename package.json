@@ -1,0 +1,31 @@
+{
+  "name": "todobackend",
+  "version": "1.0.0",
+  "description": "simple todo backend",
+  "main": "server.js",
+  "scripts": {
+    "start":"node server",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/princeadeyeye/VasitiProject.git"
+  },
+  "keywords": [
+    "todo",
+    "javascript",
+    "react"
+  ],
+  "author": "adeyeye muiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/princeadeyeye/VasitiProject/issues"
+  },
+  "homepage": "https://github.com/princeadeyeye/VasitiProject#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.6"
+  }
+}
