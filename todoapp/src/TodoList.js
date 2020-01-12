@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Todo from './Todo';
-import NewTodoForm from './TodoForm';
+import TodoForm from './TodoForm';
+import { RestdataSource } from './api-todo'
 
 class Todolist extends Component {
     
@@ -10,7 +11,33 @@ class Todolist extends Component {
         this.state = {
         	todos: []
         };
+
+        this.dataSource = new RestdataSource("http://localhost:5000/api/v1/todo")
     }
+
+
+componentDidMount() {
+    this.dataSource.GetData(data => this.setState({ todos: data}))
+    console.log(this.state.todos)
+}
+
+save = (data) => {
+    console.log(data.task)
+        this.dataSource.Store(data.task, this.addTodo())
+}
+
+edit = (data) => {
+            this.dataSource.Update(data, this.update())
+
+}
+
+delete = (data) => {
+    console.log(data)
+    this.dataSource.Delete(data, this.remove())
+}
+
+cancel = () => this.props.history.push('/')
+
 
     addTodo = (newTodo) => {
     	this.setState({
@@ -46,23 +73,23 @@ class Todolist extends Component {
     render() {
     	const todos = this.state.todos.map(todo => 
     		<Todo 
-	    		key={todo.id}
-	    		id={todo.id}
+	    		key={todo._id}
+	    		id={todo._id}
 	    		task={todo.task} 
 	    		completed={todo.completed}
-	    		removeTodo = {this.remove}
-	    		updateTodo={this.update}
+	    		removeTodo = {this.delete}
+	    		updateTodo={this.edit}
 	    		toggleTodo={this.toggleCompletion}
     		/>
     		);
         return (
         	<div className='TodoList'>
-        		<h1>Todo List<span>A simple React Todo List</span></h1>
+        		<h1>Todo List<span>A simple Todo List</span></h1>
         		
         		<ul>
         			{todos}
         		</ul>
-        		<NewTodoForm createTodo ={this.addTodo} />
+        		<TodoForm createTodo ={this.save} />
         	</div>            
         );
     }

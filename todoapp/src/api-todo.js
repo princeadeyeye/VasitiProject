@@ -1,71 +1,37 @@
-const create = ( todo ) => {
-  return fetch('http://localhost:3000/', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  body: JSON.stringify(todo)
-  }).then((response) => {
-    return response.json()
-  }).catch((err) => {
-    console.log(err)
-  })
-}
+import Axios from 'axios'
 
-const update = (params) => {
-  return fetch('http://localhost:3000/'+ params.id, {
-    method: 'PATCH',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    }
-  }).then(response => {
-    return response.json()
-  }).catch((err) => console.log(err))
-}
+export class RestdataSource {
+  constructor(base_url) {
+    this.Base_URL = base_url
+  }
 
-const read = (params) => {
-  return fetch('http://localhost:3000/'+ params.id, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    }
-  }).then(response => {
-    return response.json()
-  }).catch((err) => console.log(err))
-}
+  GetData(callback) {
+    this.SendRequest('get', this.Base_URL, callback)
+  }
 
-const remove = (params) => {
-  return fetch('http://localhost:3000/' + params.id, {
-    method: 'DELETE',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    }
-  }).then((response) => {
-    return response.json()
-  }).catch((err) => {
-    console.log(err)
-  })
-}
+  async GetOne(id, callback) {
+    this.SendRequest('get', `${this.Base_URL}/${id}`, callback)
+  }
 
+  async Store(data, callback) {
+   this.SendRequest('post', `${this.Base_URL}`, data, callback) 
+  }
 
-const list = () => {
-  return fetch('http://localhost:3000/', {
-    method: 'GET',
-    })
-    .then(response => {
-      return response.json()
-  })
-  .catch((err) => console.log(err))
-}
+  async Update(data, callback) {
+    this.SendRequest('put', `${this.Base_URL}/${data._id}`, callback)
+  }
 
-export {
-  create,
-  remove,
-  read,
-  update,
-  list,
+  async Delete (data, callback) {
+    this.SendRequest('delete', `${this.Base_URL}/${data}`, callback)
+  }
+
+  async SendRequest (method, url, callback, data) {
+      let response = await Axios.request({
+        method:method,
+        url: url,
+        data: data
+      })
+      console.log(response)
+      callback(response.data)
+  }
 }

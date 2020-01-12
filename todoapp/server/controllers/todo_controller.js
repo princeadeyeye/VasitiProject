@@ -3,7 +3,11 @@ const Todo = require('../model/todo_model')
 
 
 const create = (req, res) => {
-	Todo.save()
+	console.log(req.body)
+	const todo = new Todo({
+		task: req.body.task
+	})
+	todo.save()
 		.then(()=> {
 			res.status(201).json({
 				message: 'Todo added successfully'
@@ -17,12 +21,12 @@ const create = (req, res) => {
 
 const read =  (req, res) => {
 Todo.find()
-		.then((todo) => {
+		.then((todos) => {
 			res.status(200).json(todos)
 		})
 		.catch((error) => {
 			res.status(400).json({
-				error: error
+				error: "canoot get todos"
 			})
 		})
 };
